@@ -5,8 +5,8 @@ namespace TODOAppBackend.Models;
 public class LoginRequest
 {
 	[Required]
-	public string? login { get; set; }
+	public string login { get; set; }
 
 	[Required]
-	public string? password { get; set; }
+	public string password { get; set; }
 }

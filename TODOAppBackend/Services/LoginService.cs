@@ -2,11 +2,6 @@
 
 namespace TODOAppBackend.Services;
 
-public interface ILoginService
-{
-	LoginResponse LoginIn(LoginRequest request);
-}
-
 public class LoginService : ILoginService
 {
 	private readonly IUserService _userService;
@@ -25,7 +20,7 @@ public class LoginService : ILoginService
 		{
 			var token = _jwtService.CreateToken(dbUserInfo.Login);
 
-			return LoginResponse.Success(token);
+			return LoginResponse.Success("Bearer " + token);
 		}
 		return LoginResponse.Fail();
 	}

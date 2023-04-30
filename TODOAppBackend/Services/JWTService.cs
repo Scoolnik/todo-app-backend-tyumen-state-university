@@ -6,11 +6,6 @@ using System.Text;
 
 namespace TODOAppBackend.Services;
 
-public interface IJWTService
-{
-	string CreateToken(string userId);
-}
-
 public class JWTService : IJWTService
 {
 	private readonly AppSettings _appSettings;

@@ -18,9 +18,13 @@ builder.Services
 	.AddEndpointsApiExplorer()
 	.AddSwaggerGen();
 
-builder.Services.AddScoped<IJWTService, JWTService>();
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<ILoginService, LoginService>();
+builder.Services
+	.AddScoped<IJWTService, JWTService>()
+	.AddScoped<IUserService, UserServiceMock>()
+	.AddScoped<ITaskService, TaskServiceMock>()
+	.AddScoped<ILoginService, LoginService>()
+	.AddScoped<ITaskMapperService, TaskMapperServiceMock>();
+
 
 builder.Services.AddAuthentication(x =>
 {
