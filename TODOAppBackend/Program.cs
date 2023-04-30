@@ -51,29 +51,6 @@ app.UseHttpsRedirection()
 	.UseAuthentication()
 	.UseAuthorization();
 
-//app.Map("/login/{username}", (string username) =>
-//{
-//	var claims = new List<Claim> { new Claim(ClaimTypes.UserData, username) };
-//	// создаем JWT-токен
-//	var jwt = new JwtSecurityToken(
-//			claims: claims,
-//			expires: DateTime.UtcNow.Add(TimeSpan.FromDays(2)),
-//			signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
-
-//	return new JwtSecurityTokenHandler().WriteToken(jwt);
-//});
-
-app.Map("/data", [Authorize] () => new { message = "Hello World!" });
-
 app.MapControllers();
 
 app.Run();
-
-public class AuthOptions
-{
-	public const string ISSUER = "MyAuthServer"; // издатель токена
-	public const string AUDIENCE = "MyAuthClient"; // потребитель токена
-	const string KEY = "mysupersecret_secretkey!123";   // ключ для шифрации
-	public static SymmetricSecurityKey GetSymmetricSecurityKey() =>
-		new SymmetricSecurityKey(Encoding.UTF8.GetBytes(KEY));
-}
