@@ -19,8 +19,7 @@ public class LoginService : ILoginService
 		if (dbUserInfo != null && dbUserInfo.Password == request.password)
 		{
 			var token = _jwtService.CreateToken(dbUserInfo.Id);
-
-			return LoginResponse.Success("Bearer " + token);
+			return LoginResponse.Success(token);
 		}
 		return LoginResponse.Fail();
 	}

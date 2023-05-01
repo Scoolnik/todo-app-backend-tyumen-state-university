@@ -24,7 +24,6 @@ public class JWTService : IJWTService
 		{
 			new ("userId", userId.ToString())
 		};
-
 		var tokenHandler = new JwtSecurityTokenHandler();
 		var tokenDescriptor = new SecurityTokenDescriptor
 		{
@@ -34,7 +33,7 @@ public class JWTService : IJWTService
 		};
 		var token = tokenHandler.CreateToken(tokenDescriptor);
 		var jwt = tokenHandler.WriteToken(token);
-		return jwt;
+		return "Bearer " + jwt;
 	}
 
 	public bool TryGetUserId(string token, out int userId)
