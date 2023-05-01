@@ -121,13 +121,15 @@ namespace TODOAppBackend.Tests
 				var task = tasks.tasks.First(x => x.scheduledTime == date);
 				Assert.That(task, Is.Not.Null);
 				Assert.AreEqual(title, task.taskTitle);
+				
+				title += i;
+
 				var updateResult = _dataController.UpdateTask(
 					authorisation, 
 					int.Parse(task.id), 
 					new Models.TaskEditRequest() { taskTitle = title, isCompleted = false, scheduledTime = date }
 				);
 				Assert.AreEqual("success", updateResult.result);
-				title += i;
 			}
 		}
 
