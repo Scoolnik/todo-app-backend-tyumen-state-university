@@ -62,7 +62,9 @@ public class TaskServiceMock : ITaskService
 		{
 			return false;
 		}
-		taskInDb = _taskMapperService.MapCombined(taskInDb, task);
+		var newTaskInDb = _taskMapperService.MapCombined(taskInDb, task);
+		_tasks.Remove(taskInDb);
+		_tasks.Add(newTaskInDb);
 		return true;
 	}
 
