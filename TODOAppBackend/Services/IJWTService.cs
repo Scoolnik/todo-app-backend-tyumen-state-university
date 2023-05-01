@@ -2,6 +2,6 @@
 
 public interface IJWTService
 {
-	string CreateToken(string userId);
-	int? GetUserId(string token);
+	string CreateToken(int userId);
+	bool TryGetUserId(string token, out int userId);
 }

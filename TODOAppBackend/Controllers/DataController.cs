@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using TODOAppBackend.Models;
 using TODOAppBackend.Services;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace TODOAppBackend.Controllers
 {
@@ -54,15 +53,22 @@ namespace TODOAppBackend.Controllers
 		[HttpPut("updateTask/{userId}/{taskId}")]
 		public OperationResultResponse UpdateTask([FromHeader] string authorization, int taskId, [FromBody] TaskEditRequest request)
 		{
-			var result = _taskService.TryUpdateTask(taskId, request);
+			if (!_jwtService.TryGetUserId(authorization, out int userId))
+			{
+				return OperationResultResponse.Fail();
+			}
+			var result = _taskService.TryUpdateTask(userId, taskId, request);
 			return result ? OperationResultResponse.Success() : OperationResultResponse.Fail();
 		}
 
 		[HttpDelete("deleteTask/{userId}/{taskId}")]
 		public OperationResultResponse RemoveTask([FromHeader] string authorization, int taskId)
 		{
-			var userId = 
-			var result = _taskService.TryRemoveTask(taskId);
+			if (!_jwtService.TryGetUserId(authorization, out int userId))
+			{
+				return OperationResultResponse.Fail();
+			}
+			var result = _taskService.TryRemoveTask(userId, taskId);
 			return result ? OperationResultResponse.Success() : OperationResultResponse.Fail();
 		}
 
