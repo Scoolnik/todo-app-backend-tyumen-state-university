@@ -55,9 +55,9 @@ public class TaskServiceMock : ITaskService
 		_tasks.Add(taskInDb);
 	}
 
-	public bool TryUpdateTask(int taskId, TaskEditRequest task)
+	public bool TryUpdateTask(int userId, int taskId, TaskEditRequest task)
 	{
-		var taskInDb = _tasks.FirstOrDefault(x => x.taskId == taskId);
+		var taskInDb = _tasks.FirstOrDefault(x => x.taskId == taskId && x.userId == userId);
 		if (taskInDb == null)
 		{
 			return false;
@@ -66,9 +66,9 @@ public class TaskServiceMock : ITaskService
 		return true;
 	}
 
-	public bool TryRemoveTask(int taskId)
+	public bool TryRemoveTask(int userId, int taskId)
 	{
-		var taskInDb = _tasks.FirstOrDefault(x => x.taskId == taskId);
+		var taskInDb = _tasks.FirstOrDefault(x => x.taskId == taskId && x.userId == userId);
 		if (taskInDb == null)
 		{
 			return false;

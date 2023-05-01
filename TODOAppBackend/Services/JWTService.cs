@@ -15,14 +15,14 @@ public class JWTService : IJWTService
 		_appSettings = appSettings.Value;
 	}
 
-	public string CreateToken(string userId)
+	public string CreateToken(int userId)
 	{
 		var key = Encoding.UTF8.GetBytes(_appSettings.Secret);
 		var lifetime = _appSettings.TokenLifetime;
 
 		var claims = new List<Claim>()
 		{
-			new ("userId", userId)
+			new ("userId", userId.ToString())
 		};
 
 		var tokenHandler = new JwtSecurityTokenHandler();
@@ -35,5 +35,19 @@ public class JWTService : IJWTService
 		var token = tokenHandler.CreateToken(tokenDescriptor);
 		var jwt = tokenHandler.WriteToken(token);
 		return jwt;
+	}
+
+	public bool TryGetUserId(string token, out int userId)
+	{
+		string jwt = token.StartsWith("Bearer") ? token.Substring(7) : token;
+		var tokenHandler = new JwtSecurityTokenHandler();
+		var userIdString = tokenHandler.ReadJwtToken(jwt).Claims.FirstOrDefault(x=>x.Type == "userId")?.Value;
+		if (!string.IsNullOrWhiteSpace(userIdString))
+		{
+			userId = int.Parse(userIdString);
+			return true;
+		}
+		userId = -1;
+		return false;
 	}
 }

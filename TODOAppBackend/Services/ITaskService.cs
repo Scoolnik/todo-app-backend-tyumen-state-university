@@ -8,7 +8,7 @@ namespace TODOAppBackend.Services
 		TaskResponseModel[] GetAllByDayAndUser(int userId, DateTime date);
 		TaskResponseModel[] GetAllByUser(int userId);
 		Dictionary<DateOnly, TaskResponseModel[]> GetAllByWeekAndUser(int userId, DateTime date);
-		bool TryRemoveTask(int taskId);
-		bool TryUpdateTask(int taskId, TaskEditRequest task);
+		bool TryRemoveTask(int userId, int taskId);
+		bool TryUpdateTask(int userId, int taskId, TaskEditRequest task);
 	}
 }

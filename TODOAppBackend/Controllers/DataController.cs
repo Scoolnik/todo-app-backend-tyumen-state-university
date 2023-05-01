@@ -12,10 +12,12 @@ namespace TODOAppBackend.Controllers
 	public class DataController : ControllerBase
 	{
 		private readonly ITaskService _taskService;
+		private readonly IJWTService _jwtService;
 
-		public DataController(ITaskService taskService)
+		public DataController(ITaskService taskService, IJWTService jwtService)
 		{
 			_taskService = taskService;
+			_jwtService = jwtService;
 		}
 
 		[HttpGet("allTasks/{userId}")]
@@ -50,15 +52,16 @@ namespace TODOAppBackend.Controllers
 		}
 
 		[HttpPut("updateTask/{userId}/{taskId}")]
-		public OperationResultResponse UpdateTask(int userId, int taskId, [FromBody] TaskEditRequest request)
+		public OperationResultResponse UpdateTask([FromHeader] string authorization, int taskId, [FromBody] TaskEditRequest request)
 		{
 			var result = _taskService.TryUpdateTask(taskId, request);
 			return result ? OperationResultResponse.Success() : OperationResultResponse.Fail();
 		}
 
 		[HttpDelete("deleteTask/{userId}/{taskId}")]
-		public OperationResultResponse RemoveTask(int userId, int taskId)
+		public OperationResultResponse RemoveTask([FromHeader] string authorization, int taskId)
 		{
+			var userId = 
 			var result = _taskService.TryRemoveTask(taskId);
 			return result ? OperationResultResponse.Success() : OperationResultResponse.Fail();
 		}
