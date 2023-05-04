@@ -6,8 +6,8 @@ using TODOAppBackend.Services;
 namespace TODOAppBackend.Controllers
 {
 	[Authorize]
-	[Route("api/[controller]")]
 	[ApiController]
+	[Route("api/[controller]")]
 	public class DataController : ControllerBase
 	{
 		private readonly ITaskService _taskService;

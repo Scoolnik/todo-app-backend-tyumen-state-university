@@ -6,12 +6,12 @@ using TODOAppBackend.Services;
 namespace TODOAppBackend.Controllers;
 
 [ApiController]
-[Route("api/auth/login")]
-public class LoginController : ControllerBase
+[Route("api/[controller]/[action]")]
+public class AuthController : ControllerBase
 {
 	private readonly ILoginService _loginService;
 
-	public LoginController(ILoginService loginService)
+	public AuthController(ILoginService loginService)
 	{
 		_loginService = loginService;
 	}

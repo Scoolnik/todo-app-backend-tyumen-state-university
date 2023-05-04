@@ -11,7 +11,7 @@ namespace TODOAppBackend.Tests
 		private ILoginService _loginService;
 		private ITaskMapperService _taskMapperService;
 		private ITaskService _taskService;
-		private LoginController _loginController;
+		private AuthController _loginController;
 		private DataController _dataController;
 
 		private Random _rand = new Random();
@@ -29,7 +29,7 @@ namespace TODOAppBackend.Tests
 			_loginService = new LoginService(_userService, _jwtService);
 			_taskMapperService = new TaskMapperServiceMock();
 			_taskService = new TaskServiceMock(_taskMapperService);
-			_loginController = new LoginController(_loginService);
+			_loginController = new AuthController(_loginService);
 			_dataController = new DataController(_taskService, _jwtService);
 		}
 
