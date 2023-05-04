@@ -5,10 +5,12 @@ using TODOAppBackend;
 using TODOAppBackend.Services;
 
 var builder = WebApplication.CreateBuilder(args);
-var appSettings = builder.Configuration.GetSection("AppSettings");
+
+builder.Configuration.AddJsonFile("authsettings.json");
+var authSettings = builder.Configuration.GetSection("AuthSettings");
 // Add services to the container.
 
-builder.Services.Configure<AppAuthSettings>(appSettings);
+builder.Services.Configure<AppAuthSettings>(authSettings);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services
@@ -34,7 +36,7 @@ builder.Services.AddAuthentication(x =>
 	{
 		ValidateIssuer = false,
 		ValidateAudience = false,
-		IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(appSettings["Secret"])),
+		IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authSettings["Secret"])),
 	};
 });
 builder.Services.AddAuthorization();
