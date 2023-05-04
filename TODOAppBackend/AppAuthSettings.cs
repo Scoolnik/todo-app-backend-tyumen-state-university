@@ -1,5 +1,5 @@
 ﻿namespace TODOAppBackend;
-public class AppSettings
+public class AppAuthSettings
 {
 	public string Secret { get; set; }
 	public string TokenLifetimeValue { get; set; }

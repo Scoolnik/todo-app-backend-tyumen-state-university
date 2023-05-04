@@ -19,12 +19,12 @@ namespace TODOAppBackend.Tests
 		[SetUp]
 		public void Setup()
 		{
-			var appSettings = new AppSettings()
+			var appSettings = new AppAuthSettings()
 			{
 				Secret = "TempSuperSecretStringBlahBlah",
 				TokenLifetimeValue = "1:0:0:0"
 			};
-			_jwtService = new JWTService(new OptionsWrapper<AppSettings>(appSettings));
+			_jwtService = new JWTService(new OptionsWrapper<AppAuthSettings>(appSettings));
 			_userService = new UserServiceMock();
 			_loginService = new LoginService(_userService, _jwtService);
 			_taskMapperService = new TaskMapperServiceMock();

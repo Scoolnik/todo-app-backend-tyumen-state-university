@@ -8,9 +8,9 @@ namespace TODOAppBackend.Services;
 
 public class JWTService : IJWTService
 {
-	private readonly AppSettings _appSettings;
+	private readonly AppAuthSettings _appSettings;
 
-	public JWTService(IOptions<AppSettings> appSettings)
+	public JWTService(IOptions<AppAuthSettings> appSettings)
 	{
 		_appSettings = appSettings.Value;
 	}

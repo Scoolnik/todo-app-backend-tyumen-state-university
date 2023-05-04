@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 var appSettings = builder.Configuration.GetSection("AppSettings");
 // Add services to the container.
 
-builder.Services.Configure<AppSettings>(appSettings);
+builder.Services.Configure<AppAuthSettings>(appSettings);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services
