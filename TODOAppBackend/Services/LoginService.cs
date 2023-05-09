@@ -16,9 +16,9 @@ public class LoginService : ILoginService
 	public LoginResponse LoginIn(LoginRequest request)
 	{
 		var dbUserInfo = _userService.GetByLogin(request.login);
-		if (dbUserInfo != null && dbUserInfo.Password == request.password)
+		if (dbUserInfo != null && dbUserInfo.UserPassword == request.password)
 		{
-			var token = _jwtService.CreateToken(dbUserInfo.Id);
+			var token = _jwtService.CreateToken(dbUserInfo.ID);
 			return LoginResponse.Success(token);
 		}
 		return LoginResponse.Fail();

@@ -1,17 +1,26 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using TODOAppBackend;
+using TODOAppBackend.Entities;
+using TODOAppBackend.Repository;
 using TODOAppBackend.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddJsonFile("authsettings.json");
 var authSettings = builder.Configuration.GetSection("AuthSettings");
+builder.Configuration.AddJsonFile("appsettings.json");
+var applicationSettings = builder.Configuration.GetSection("ConnectionStrings");
+var connectionString = applicationSettings.GetSection("DefaultConnection").Value;
 // Add services to the container.
 
 builder.Services.Configure<AppAuthSettings>(authSettings);
 builder.Services.AddControllers();
+
+builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connectionString));
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services
 	.AddEndpointsApiExplorer()
@@ -19,10 +28,10 @@ builder.Services
 
 builder.Services
 	.AddScoped<IJWTService, JWTService>()
-	.AddScoped<IUserService, UserServiceMock>()
-	.AddScoped<ITaskService, TaskServiceMock>()
+	.AddScoped<IUserService, UserService>()
+	.AddScoped<ITaskService, TaskService>()
 	.AddScoped<ILoginService, LoginService>()
-	.AddScoped<ITaskMapperService, TaskMapperServiceMock>();
+	.AddScoped<ITaskMapperService, TaskMapperService>();
 
 
 builder.Services.AddAuthentication(x =>

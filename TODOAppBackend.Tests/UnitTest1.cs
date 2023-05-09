@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Options;
 using TODOAppBackend.Controllers;
+using TODOAppBackend.Repository;
 using TODOAppBackend.Services;
 
 namespace TODOAppBackend.Tests
@@ -25,10 +26,10 @@ namespace TODOAppBackend.Tests
 				TokenLifetimeValue = "1:0:0:0"
 			};
 			_jwtService = new JWTService(new OptionsWrapper<AppAuthSettings>(appSettings));
-			_userService = new UserServiceMock();
+			_userService = new UserService();
 			_loginService = new LoginService(_userService, _jwtService);
-			_taskMapperService = new TaskMapperServiceMock();
-			_taskService = new TaskServiceMock(_taskMapperService);
+			_taskMapperService = new TaskMapperService();
+			_taskService = new TaskService(_taskMapperService);
 			_loginController = new AuthController(_loginService);
 			_dataController = new DataController(_taskService, _jwtService);
 		}
@@ -56,9 +57,9 @@ namespace TODOAppBackend.Tests
 
 			Assert.That(() =>
 			{
-				return taskRequest.taskTitle == mappedTask.taskTitle
-				&& taskRequest.isCompleted == mappedTask.isCompleted
-				&& taskRequest.scheduledTime == mappedTask.scheduledTime;
+				return taskRequest.taskTitle == mappedTask.TaskTitle
+				&& taskRequest.isCompleted == mappedTask.IsCompleted
+				&& taskRequest.scheduledTime == mappedTask.ScheduledTime;
 			});
 		}
 
