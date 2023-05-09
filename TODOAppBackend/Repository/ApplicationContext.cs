@@ -8,7 +8,7 @@ namespace TODOAppBackend.Repository
         public DbSet<TM_Task> Tasks { get; set; }
         public DbSet<TM_User> Users { get; set; }
 
-        public ApplicationContext()
+        public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
         {
             Database.EnsureCreated();
         }

@@ -11,10 +11,10 @@ public class TaskService : ITaskService
 
 	private ITaskMapperService _taskMapperService;
 
-	public TaskService(ITaskMapperService taskMapperService)
+	public TaskService(ITaskMapperService taskMapperService, IRepository<TM_Task> repository)
 	{
 		_taskMapperService = taskMapperService;
-		_repository = new BaseRepository<TM_Task>();
+		_repository = repository;
 	}
 
 	public TaskResponseModel[] GetAllByUser(int userId)

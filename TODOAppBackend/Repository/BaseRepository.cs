@@ -5,9 +5,9 @@ namespace TODOAppBackend.Repository
     public class BaseRepository<DBEntity> : IRepository<DBEntity> where DBEntity : BaseEntity
     {
         private ApplicationContext Context { get; set; }
-        public BaseRepository()
+        public BaseRepository(ApplicationContext context)
         {
-            Context = new ApplicationContext();
+            Context = context;
         }
 
         public DBEntity Create(DBEntity model)

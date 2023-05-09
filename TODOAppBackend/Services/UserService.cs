@@ -1,18 +1,20 @@
-﻿using TODOAppBackend.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
+using TODOAppBackend.Entities;
 using TODOAppBackend.Repository;
 
 namespace TODOAppBackend.Services;
 
 public class UserService : IUserService
 {
-    private BaseRepository<TM_User> _repository;
+    private IRepository<TM_User> _repository;
 
-	public UserService()
-	{
-		_repository = new BaseRepository<TM_User>();
-	}
+	public UserService(IRepository<TM_User> repository)
+    {
+        _repository = repository;
+    }
 
-	public IEnumerable<TM_User> GetAll() => _repository.GetAll();
+    public IEnumerable<TM_User> GetAll() => _repository.GetAll();
 
 	public TM_User? GetById(int id) => _repository.Get(id);
 
