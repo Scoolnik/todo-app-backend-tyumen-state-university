@@ -12,5 +12,28 @@ namespace TODOAppBackend.Repository
         {
             Database.EnsureCreated();
         }
-    }
+
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
+		{
+			base.OnModelCreating(modelBuilder);
+
+			var users = new[]
+			{
+				new TM_User()
+				{
+					ID = 1,
+					UserLogin = "admin",
+					UserPassword = "admin",
+				},
+				new TM_User()
+				{
+					ID = 2,
+					UserLogin = "string",
+					UserPassword = "string",
+				}
+			};
+
+			modelBuilder.Entity<TM_User>().HasData(users);
+		}
+	}
 }
