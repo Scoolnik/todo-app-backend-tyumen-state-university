@@ -12,14 +12,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddJsonFile("authsettings.json");
 var authSettings = builder.Configuration.GetSection("AuthSettings");
 builder.Configuration.AddJsonFile("appsettings.json");
-var applicationSettings = builder.Configuration.GetSection("ConnectionStrings");
-var connectionString = applicationSettings.GetSection("DefaultConnection").Value;
-// Add services to the container.
-
-builder.Services.Configure<AppAuthSettings>(authSettings);
-builder.Services.AddControllers();
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connectionString));
+builder.Services.AddTransient<IRepository<TM_User>, BaseRepository<TM_User>>();
+builder.Services.AddTransient<IRepository<TM_Task>, BaseRepository<TM_Task>>();
+
+// Add services to the container.
+builder.Services.Configure<AppAuthSettings>(authSettings);
+builder.Services.AddControllers();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services

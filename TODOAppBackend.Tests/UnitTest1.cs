@@ -1,4 +1,4 @@
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using TODOAppBackend.Controllers;
 using TODOAppBackend.Repository;
 using TODOAppBackend.Services;
@@ -26,11 +26,11 @@ namespace TODOAppBackend.Tests
 				TokenLifetimeValue = "1:0:0:0"
 			};
 			_jwtService = new JWTService(new OptionsWrapper<AppAuthSettings>(appSettings));
-			_userService = new UserService();
-			_loginService = new LoginService(_userService, _jwtService);
+			_userService = new UserService(null); //¯\_(ツ)_/¯
+            _loginService = new LoginService(_userService, _jwtService);
 			_taskMapperService = new TaskMapperService();
-			_taskService = new TaskService(_taskMapperService);
-			_loginController = new AuthController(_loginService);
+			_taskService = new TaskService(_taskMapperService, null); //¯\_(ツ)_/¯
+            _loginController = new AuthController(_loginService);
 			_dataController = new DataController(_taskService, _jwtService);
 		}
 
