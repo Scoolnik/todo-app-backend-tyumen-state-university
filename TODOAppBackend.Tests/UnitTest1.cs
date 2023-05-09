@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
+using Moq;
 using TODOAppBackend.Controllers;
+using TODOAppBackend.Entities;
 using TODOAppBackend.Repository;
 using TODOAppBackend.Services;
 
@@ -17,6 +19,24 @@ namespace TODOAppBackend.Tests
 
 		private Random _rand = new Random();
 
+		private List<TM_User> _users = new List<TM_User>()
+		{
+			new TM_User()
+			{
+				ID = 1,
+				UserLogin = "admin",
+				UserPassword = "admin",
+			},
+			new TM_User()
+			{
+				ID = 2,
+				UserLogin = "string",
+				UserPassword = "string",
+			}
+		};
+
+		private List<TM_Task> _tasks = new List<TM_Task>();
+
 		[SetUp]
 		public void Setup()
 		{
@@ -25,11 +45,24 @@ namespace TODOAppBackend.Tests
 				Secret = "TempSuperSecretStringBlahBlah",
 				TokenLifetimeValue = "1:0:0:0"
 			};
+			var userRepo = new Mock<IRepository<TM_User>>();
+			var taskRepo = new Mock<IRepository<TM_Task>>();
+			userRepo.Setup(repo => repo.GetAll()).Returns(_users);
+
+			taskRepo.Setup(repo => repo.GetAll()).Returns(_tasks);
+			taskRepo.Setup(repo => repo.Update(It.IsAny<TM_Task>())).Callback<TM_Task>(task => 
+			{ 
+				_tasks.RemoveAll(t => t.ID == task.ID);
+				_tasks.Add(task);
+			});
+			taskRepo.Setup(repo => repo.Create(It.IsAny<TM_Task>())).Callback<TM_Task>(_tasks.Add);
+			taskRepo.Setup(repo => repo.Delete(It.IsAny<int>())).Callback<int>(id => _tasks.RemoveAll(t => t.ID == id));
+
 			_jwtService = new JWTService(new OptionsWrapper<AppAuthSettings>(appSettings));
-			_userService = new UserService(null); //¯\_(ツ)_/¯
+			_userService = new UserService(userRepo.Object);
             _loginService = new LoginService(_userService, _jwtService);
 			_taskMapperService = new TaskMapperService();
-			_taskService = new TaskService(_taskMapperService, null); //¯\_(ツ)_/¯
+			_taskService = new TaskService(_taskMapperService, taskRepo.Object);
             _loginController = new AuthController(_loginService);
 			_dataController = new DataController(_taskService, _jwtService);
 		}
