@@ -70,7 +70,7 @@ namespace TODOAppBackend.Tests
 		[Test]
 		public void TestJwtService()
 		{
-			var userId = 10843783;
+			var userId = GetUserId();
 			var token = _jwtService.CreateToken(userId);
 			var tokenParseResult = _jwtService.TryGetUserId(token, out int tokenUserId);
 			if (!tokenParseResult)
@@ -99,7 +99,7 @@ namespace TODOAppBackend.Tests
 		[Test]
 		public void TestTaskCreate()
 		{
-			var userId = _rand.Next();
+			var userId = GetUserId();
 			var authorisation = GetAuthHeader(userId);
 			for (var i = 0; i < 10; i++)
 			{
@@ -122,7 +122,7 @@ namespace TODOAppBackend.Tests
 		[Test]
 		public void TestTaskRemove()
 		{
-			var userId = _rand.Next();
+			var userId = GetUserId();
 			var authorisation = GetAuthHeader(userId);
 			for (var i = 0; i < 10; i++)
 			{
@@ -142,7 +142,7 @@ namespace TODOAppBackend.Tests
 		[Test]
 		public void TestTaskUpdate()
 		{
-			var userId = _rand.Next();
+			var userId = GetUserId();
 			var authorisation = GetAuthHeader(userId);
 			var date = DateTime.UtcNow.Date;
 			var title = "TaskTitke";
@@ -170,6 +170,11 @@ namespace TODOAppBackend.Tests
 		private string GetAuthHeader(int userId)
 		{
 			return _jwtService.CreateToken(userId);
+		}
+
+		private int GetUserId()
+		{
+			return _rand.Next(1, 2);
 		}
 	}
 }
