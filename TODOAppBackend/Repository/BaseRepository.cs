@@ -37,7 +37,8 @@ namespace TODOAppBackend.Repository
             {
                 toUpdate = model;
             }
-            //Context.Update(toUpdate);
+            // TODO: Здесь ошибка
+            Context.Update(toUpdate);
             Context.SaveChanges();
             return toUpdate;
         }
