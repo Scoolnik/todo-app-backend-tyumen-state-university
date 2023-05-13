@@ -1,0 +1,6 @@
+{
+  "AuthSettings": {
+    "Secret": "EnterYourSecretHere",
+    "TokenLifetimeValue": "1:0:0:0"
+  }
+}
