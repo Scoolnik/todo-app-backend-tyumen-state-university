@@ -34,8 +34,7 @@ namespace TODOAppBackend.Repository
         {
             var toUpdate = Context.Set<DBEntity>().FirstOrDefault(m => m.ID == model.ID) ?? throw new Exception("Сущность для обновления не найдена");
             toUpdate = model;
-            Context.Entry(model).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
-            Context.Entry(toUpdate).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            Context.ChangeTracker.Clear();
             Context.Update(toUpdate);
             Context.SaveChanges();
             return toUpdate;
