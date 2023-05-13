@@ -32,12 +32,10 @@ namespace TODOAppBackend.Repository
 
         public DBEntity Update(DBEntity model)
         {
-            var toUpdate = Context.Set<DBEntity>().FirstOrDefault(m => m.ID == model.ID);
-            if (toUpdate != null)
-            {
-                toUpdate = model;
-            }
-            // TODO: Здесь ошибка
+            var toUpdate = Context.Set<DBEntity>().FirstOrDefault(m => m.ID == model.ID) ?? throw new Exception("Сущность для обновления не найдена");
+            toUpdate = model;
+            Context.Entry(model).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
+            Context.Entry(toUpdate).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             Context.Update(toUpdate);
             Context.SaveChanges();
             return toUpdate;
